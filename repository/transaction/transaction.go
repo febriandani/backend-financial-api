@@ -47,6 +47,7 @@ const (
 
 	tQGetSummaryHome = `SELECT 
 	t.user_id,
+	u."name",
     -- Menampilkan Total Pemasukan (category_type = 'IN')
     SUM(CASE WHEN t.category_type = 'IN' THEN cast(t.amount as numeric) ELSE 0 END) AS total_income,
     -- Menampilkan Total Pengeluaran (category_type = 'OUT')
@@ -55,9 +56,11 @@ const (
     SUM(CASE WHEN t.category_type = 'IN' THEN cast(t.amount as numeric) ELSE 0 END) - SUM(CASE WHEN t.category_type = 'OUT' THEN cast(t.amount as numeric) ELSE 0 END) AS current_balance
 FROM 
     public.transactions t
+INNER JOIN
+	users u ON u.id = t.user_id
 WHERE 
     t.user_id = ?
-    group by t.user_id;`
+    group by t.user_id, u."name";`
 )
 
 func (tc TransactionConfig) CreateTransaction(ctx context.Context, tx *sql.Tx, data mt.TransactionRequest) (int64, error) {

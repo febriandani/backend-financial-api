@@ -67,10 +67,11 @@ type Filter struct {
 }
 
 type SummaryHomeResponse struct {
-	UserID         int64 `json:"user_id" db:"user_id"`
-	CurrentBalance int64 `json:"current_balance" db:"current_balance"`
-	TotalSpending  int64 `json:"total_spending" db:"total_spending"`
-	TotalIncome    int64 `json:"total_income" db:"total_income"`
+	UserID         int64  `json:"user_id" db:"user_id"`
+	Name           string `json:"name" db:"name"`
+	CurrentBalance int64  `json:"current_balance" db:"current_balance"`
+	TotalSpending  int64  `json:"total_spending" db:"total_spending"`
+	TotalIncome    int64  `json:"total_income" db:"total_income"`
 }
 
 type TransactionResponseDetail struct {

@@ -14,58 +14,6 @@ import (
 
 var logger *logrus.Logger
 
-// func NewLogger(conf *general.AppService) *logrus.Logger {
-// 	if logger == nil {
-// 		path := "log/"
-
-// 		isExist, err := utils.DirExists(path)
-// 		if err != nil {
-// 			panic(err)
-// 		}
-
-// 		if !isExist {
-// 			err = os.MkdirAll(path, os.ModePerm)
-// 			if err != nil {
-// 				panic(err)
-// 			}
-// 		}
-
-// 		writer, err := rotatelogs.New(
-// 			path+conf.App.Name+"-"+"%Y%m%d.log",
-// 			rotatelogs.WithMaxAge(-1),
-// 			rotatelogs.WithRotationCount(constants.MaxRotationFile),
-// 			rotatelogs.WithRotationTime(constants.LogRotationTime),
-// 		)
-// 		if err != nil {
-// 			panic(err)
-// 		}
-
-// 		logger = logrus.New()
-
-// 		logger.Hooks.Add(lfshook.NewHook(
-// 			writer,
-// 			&logrus.TextFormatter{
-// 				DisableColors:   false,
-// 				FullTimestamp:   true,
-// 				TimestampFormat: constants.FullTimeFormat,
-// 			},
-// 		))
-
-// 		// Set formatter for os.Stdout
-// 		logger.SetFormatter(&logrus.TextFormatter{
-// 			DisableColors:   false,
-// 			FullTimestamp:   true,
-// 			TimestampFormat: constants.FullTimeFormat,
-// 		})
-
-// 		logger.SetFormatter(&ecslogrus.Formatter{})
-
-// 		return logger
-// 	}
-
-// 	return logger
-// }
-
 func NewLogger(conf *general.AppService) *logrus.Logger {
 	if logger == nil {
 		path := "log/"

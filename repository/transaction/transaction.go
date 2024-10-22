@@ -49,11 +49,11 @@ const (
 	t.user_id,
 	u."name",
     -- Menampilkan Total Pemasukan (category_type = 'IN')
-    SUM(CASE WHEN t.category_type = 'IN' THEN cast(t.amount as numeric) ELSE 0 END) AS total_income,
+    COALESCE(SUM(CASE WHEN t.category_type = 'IN' THEN cast(t.amount as numeric) ELSE 0 END),0) AS total_income,
     -- Menampilkan Total Pengeluaran (category_type = 'OUT')
-    SUM(CASE WHEN t.category_type = 'OUT' THEN cast(t.amount as numeric) ELSE 0 END) AS total_spending,
+    COALESCE(SUM(CASE WHEN t.category_type = 'OUT' THEN cast(t.amount as numeric) ELSE 0 END),0) AS total_spending,
     -- Menampilkan Saldo saat ini (Pemasukan - Pengeluaran)
-    SUM(CASE WHEN t.category_type = 'IN' THEN cast(t.amount as numeric) ELSE 0 END) - SUM(CASE WHEN t.category_type = 'OUT' THEN cast(t.amount as numeric) ELSE 0 END) AS current_balance
+    COALESCE(SUM(CASE WHEN t.category_type = 'IN' THEN cast(t.amount as numeric) ELSE 0 END) - SUM(CASE WHEN t.category_type = 'OUT' THEN cast(t.amount as numeric) ELSE 0 END),0) AS current_balance
 FROM 
     public.transactions t
 INNER JOIN
@@ -163,7 +163,7 @@ func (tc TransactionConfig) GetCurrentBalanceTransactions(ctx context.Context, f
 
 	uQGetTransactions := `SELECT 
     -- Menampilkan Saldo saat ini (Pemasukan - Pengeluaran)
-    SUM(CASE WHEN t.category_type = 'IN' THEN cast(t.amount as numeric) ELSE 0 END) - SUM(CASE WHEN t.category_type = 'OUT' THEN cast(t.amount as numeric) ELSE 0 END) AS current_balance
+    COALESCE(SUM(CASE WHEN t.category_type = 'IN' THEN cast(t.amount as numeric) ELSE 0 END) - SUM(CASE WHEN t.category_type = 'OUT' THEN cast(t.amount as numeric) ELSE 0 END),0) AS current_balance
 FROM 
     public.transactions t
 `
